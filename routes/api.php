@@ -18,5 +18,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 
-Route::get('p1', 'PageController@p1');
+Route::get('login', 'PageController@login');
 Route::any('register','PageController@register');

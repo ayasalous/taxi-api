@@ -29,8 +29,8 @@ return view('about',compact('s','num'));
 
 
 
-public function p1 () {
-	$a="hello word";
+public function login () {
+	$a="hello word from login action";
 	return json_encode($a);
 }
 
