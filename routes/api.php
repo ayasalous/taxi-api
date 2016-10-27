@@ -20,3 +20,7 @@ Route::get('/user', function (Request $request) {
 
 Route::get('login', 'PageController@login');
 Route::any('register','PageController@register');
+Route::any('looooginnn','PageController@looooginnn');
+Route::any('MangerAddDriver','PageController@MangerAddDriver');
+Route::any('knowtype','PageController@knowtype');
+Route::any('showDriver','PageController@showDriver');
