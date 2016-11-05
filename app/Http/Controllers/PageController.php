@@ -43,7 +43,9 @@ $password = $request->input('password');
 $fromDb= DB::table('usertaxi')->get();
 $emailarray = DB::table('usertaxi')->pluck('email');
 $passwordarray = DB::table('usertaxi')->pluck('password');
-//$testemail='zzz@gmail.com';
+//$email='ayasalous@gmail.com';
+//$password=1123;
+
 /*
 echo  $userInfo[0];
 echo  $userInfo[1];
@@ -58,6 +60,34 @@ echo  $userInfo[8];
 
 $size =count($emailarray);
 $sizepass =count($passwordarray);
+$userInfo= array();
+
+
+/*
+
+//////////////////////check pass/////////////
+$checkpass="false";
+$resultPass="notDB";
+
+for ( $j=0;$j<$sizepass;$j++){
+if ($password== $passwordarray[$j]){
+echo $password;
+$checkpass="true";
+}//if
+}//for
+  
+
+
+if($checkpass=="false")
+{ $resultPass= "notDB";
+$userInfo[9]='notDB';
+}//if false
+if ($checkpass=="true"){
+	$resultPass= "inDB";
+}//if true
+////////////////////////////////////////////
+*/
+
 
 $check="false";
 for ( $i=0;$i<$size;$i++){
@@ -71,9 +101,10 @@ if($check=="false")
 { 
 $userInfo[9]='notDB';
 }//if false
-if ($check=="true"){
+if ($check=="true" ){//
+	//echo "correct pass && email";
 $getUserByEmail = DB::table('usertaxi')->where('email',  $email)->first();
-$userInfo= array();
+
 $userInfo[0] = $getUserByEmail->id ;
 $userInfo[1] = $getUserByEmail->type;
 $userInfo[2] = $getUserByEmail->firstname ;
@@ -83,38 +114,40 @@ $userInfo[5] = $getUserByEmail->password;
 $userInfo[6] = $getUserByEmail->phonenum;
 $userInfo[7] = $getUserByEmail->cardnum;
 $userInfo[8] = $getUserByEmail->image;
-$userInfo[9] ='inDB';
 $userInfo[10] = $getUserByEmail->nameoffice;
+
+
+if ($userInfo[5]==$password){
+$userInfo[9] ='inDB';
+}else
+$userInfo[9] ='notDB';
+ 
 }//if true
+
+//return $userInfo[9];
 //return $userInfo;
+
+
 return json_encode($userInfo);
-//////////////////////check pass/////////////
-/*$checkpass="false";
-for ( $j=0;$j<$sizepass;$j++){
-if ($password== $passwordarray[$j]){
-$checkpass="true";
-}//if
-}//for
-if($checkpass=="false")
-{ return "notDB";
-}//if false
-if ($checkpass=="true"){
-	return "inDB";//not done .. not save in DB
-}//if true
-*/
+
 
 }//function
 
 
 public function showDriver(Request $request){
-	//$nameOffice=$request->input('nameoffice');
+	$nameOffice=$request->input('nameoffice');
 	//echo $nameOffice;	
-$nameOffice="madina";
-$DriverOffice = DB::table('usertaxi')->where('nameoffice',$nameOffice)->get();
+//$nameOffice="madina";
+$DriverOffice = DB::table('usertaxi')->where('nameoffice',$nameOffice)->
+                                       where('type','driver')->get();
 
 return  json_encode($DriverOffice);
 }
 
+public function deleteDriver(Request $request){
+	$DriverID=$request->input('DriverID');
+	DB::table('usertaxi')->where('id', '=', $DriverID)->delete();
+}
 
 
 public function register(Request $request){
@@ -180,6 +213,8 @@ if($check=="false")
 	$taxi->type = "driver";
 	$taxi->phonenum = $request->input('number');
     $taxi->cardnum = $request->input('cardnumber');
+    $taxi->nameoffice = $request->input('officename');
+    $taxi->image = 'driver';
 $taxi->save();
 return "Done";
 }//if false

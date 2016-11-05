@@ -24,3 +24,4 @@ Route::any('looooginnn','PageController@looooginnn');
 Route::any('MangerAddDriver','PageController@MangerAddDriver');
 Route::any('knowtype','PageController@knowtype');
 Route::any('showDriver','PageController@showDriver');
+Route::any('deleteDriver','PageController@deleteDriver');
